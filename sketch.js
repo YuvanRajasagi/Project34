@@ -20,16 +20,18 @@ function setup() {
   dog.scale = 0.1;
   
   //Assign database to firebase
-  //database = firebase.database();
-  // foodStock = database.ref("Food")
-  // foodStock.on("value", readStock);
+  database = firebase.database();
+  foodStock = database.ref("Food")
+  foodStock.on("value", readStock);
 }
 
 
 function draw() {  
-  background("lightBlue");
-
-  text("Food Remaining: ",200,200);
+  background(255,255,254);
+  textSize(15);
+  stroke("black");
+  text("Food Remaining: "+foodS,180,180);   
+  text("Press UP_ARROW key to feed the pet milk", 100,20);
 
   if(keyWentDown(UP_ARROW)){
     writeStock(foodS);
@@ -41,17 +43,19 @@ function draw() {
 
 }
 
+// to read data value from database
 function readStock(data){
   foodS = data.val();
 }
 
+// to write for update data value in database
 function writeStock(x){
   if(x <= 0){
     x = 0;
   }else{
     x = x-1;
   }
-  // database.ref("/").update({
-  //   Food:x
-  // })
+  database.ref("/").update({
+    Food:x
+  })
 }
